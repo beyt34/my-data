@@ -3,3 +3,10 @@
 ################################################################################
 
 /.vs
+/MyData.Console/bin/Debug/netcoreapp3.1
+/MyData.Console/obj
+/MyData.Core/bin/Debug/netcoreapp3.1
+/MyData.Core/obj
+/MyData.Data/bin/Debug/netcoreapp3.1
+/MyData.Data/obj
+/MyData.v3.ncrunchsolution.user
