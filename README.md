@@ -1,2 +1,2 @@
 # my-data
-EntityFrameworkCore Repository Pattern
+EntityFrameworkCore Repository Pattern Sample Project
