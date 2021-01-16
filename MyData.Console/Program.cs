@@ -35,16 +35,16 @@ namespace MyData.Console {
             var id = await cityRepository.AddUpdate(newCity, logUserId);
             AddConsoleLog($"Inserted Id:{id}\n");
 
-            AddConsoleLog("Find by query...");
-            var city = await cityRepository.Find(f => f.Id == id);
-            AddConsoleLog($"Find result:{city.SerializeToJson()}\n");
+            AddConsoleLog("Detail by id...");
+            var detail = await cityRepository.Detail(id);
+            AddConsoleLog($"Detail result:{detail.SerializeToJson()}\n");
 
             AddConsoleLog("Update...");
             logUserId = Guid.NewGuid();
             randomText = logUserId.ToString();
-            city.Code = randomText.Replace("-", string.Empty).Substring(0, 10);
-            city.Name = randomText;
-            await cityRepository.AddUpdate(city, logUserId);
+            detail.Code = randomText.Replace("-", string.Empty).Substring(0, 10);
+            detail.Name = randomText;
+            await cityRepository.AddUpdate(detail, logUserId);
             AddConsoleLog($"Updated\n");
 
             AddConsoleLog("Filter by query...");
@@ -57,11 +57,7 @@ namespace MyData.Console {
             var list2Data = await list2.Data.ToListAsync();
             AddConsoleLog($"Filter result-Total:{list2Total}");
             AddConsoleLog($"Filter result-Data:{list2Data.SerializeToJson()}\n");
-
-            AddConsoleLog("Detail by id...");
-            var detail = await cityRepository.Detail(id);
-            AddConsoleLog($"Detail result:{detail.SerializeToJson()}\n");
-
+            
             AddConsoleLog("Delete by id...");
             var delete = await cityRepository.Delete(id, logUserId);
             AddConsoleLog($"Delete result:{delete}\n");

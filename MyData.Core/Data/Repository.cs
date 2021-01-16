@@ -38,11 +38,6 @@ namespace MyData.Core.Data {
             return entity.Id;
         }
 
-        public async Task<TEntity> Find(Expression<Func<TEntity, bool>> predicate) {
-            predicate = predicate.And(q => !q.IsDeleted);
-            return await context.Set<TEntity>().Where(predicate).FirstOrDefaultAsync();
-        }
-
         public async Task<TEntity> Detail(Guid id) {
             return await context.Set<TEntity>().Where(p => p.Id == id && !p.IsDeleted).FirstOrDefaultAsync();
         }

@@ -8,9 +8,7 @@ namespace MyData.Core.Data {
         where T : BaseEntity {
         Task<Guid> AddUpdate(T entity, Guid logUserId);
 
-        Task<T> Find(Expression<Func<T, bool>> predicate);
-
-        Task<T> Detail(Guid id);
+         Task<T> Detail(Guid id);
 
         IQueryable<T> Filter(Expression<Func<T, bool>> predicate);
 
