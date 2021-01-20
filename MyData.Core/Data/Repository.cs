@@ -47,7 +47,7 @@ namespace MyData.Core.Data {
 
         public IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate) {
             predicate = predicate.And(q => !q.IsDeleted);
-            return context.Set<TEntity>().Where(predicate).AsQueryable();
+            return context.Set<TEntity>().Where(predicate).AsNoTracking().AsQueryable();
         }
 
         public FilterModel<TEntity> Filter(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, Expression<Func<TEntity, object>> shortField, bool sortDescending) {
@@ -60,10 +60,10 @@ namespace MyData.Core.Data {
             }
 
             var filter = context.Set<TEntity>().Where(predicate).AsQueryable();
-            retval.Total = filter.Count();
+            retval.Total = filter.AsNoTracking().Count();
             filter = sortDescending ? filter.OrderByDescending(shortField) : filter.OrderBy(shortField);
             filter = filter.Skip(pageIndex * pageSize).Take(pageSize);
-            retval.Data = filter.AsQueryable();
+            retval.Data = filter.AsNoTracking().AsQueryable();
 
             return retval;
         }
