@@ -45,12 +45,12 @@ namespace MyData.Core.Data {
             return await context.Set<TEntity>().Where(p => p.Id == id && !p.IsDeleted).FirstOrDefaultAsync();
         }
 
-        public IQueryable<TEntity> FilterAsync(Expression<Func<TEntity, bool>> predicate) {
+        public IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate) {
             predicate = predicate.And(q => !q.IsDeleted);
             return context.Set<TEntity>().Where(predicate).AsQueryable();
         }
 
-        public FilterModel<TEntity> FilterAsync(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, Expression<Func<TEntity, object>> shortField, bool sortDescending) {
+        public FilterModel<TEntity> Filter(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, Expression<Func<TEntity, object>> shortField, bool sortDescending) {
             var retval = new FilterModel<TEntity>();
             predicate = predicate.And(q => !q.IsDeleted);
 

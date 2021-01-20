@@ -11,9 +11,9 @@ namespace MyData.Core.Data {
 
         Task<T> DetailAsync(Guid id);
 
-        IQueryable<T> FilterAsync(Expression<Func<T, bool>> predicate);
+        IQueryable<T> Filter(Expression<Func<T, bool>> predicate);
 
-        FilterModel<T> FilterAsync(Expression<Func<T, bool>> predicate, int pageIndex, int pageSize, Expression<Func<T, object>> shortField, bool sortDescending);
+        FilterModel<T> Filter(Expression<Func<T, bool>> predicate, int pageIndex, int pageSize, Expression<Func<T, object>> shortField, bool sortDescending);
 
         Task<bool> DeleteAsync(Guid id, Guid logUserId);
 

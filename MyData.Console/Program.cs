@@ -82,16 +82,16 @@ namespace MyData.Console {
             await cityRepository.AddUpdateAsync(detail, logUserId);
             AddConsoleLog($"Updated\n");
 
-            AddConsoleLog("FilterAsync by query...");
-            var list = await cityRepository.FilterAsync(f => f.Id == id).ToListAsync();
-            AddConsoleLog($"FilterAsync result:{list.SerializeToJson()}\n");
+            AddConsoleLog("Filter by query...");
+            var list = await cityRepository.Filter(f => f.Id == id).ToListAsync();
+            AddConsoleLog($"Filter result:{list.SerializeToJson()}\n");
 
-            AddConsoleLog("FilterAsync by query...");
-            var list2 = cityRepository.FilterAsync(f => f.Id == id, 0, 20, f => f.CreatedDateTime, true);
+            AddConsoleLog("Filter by query...");
+            var list2 = cityRepository.Filter(f => f.Id == id, 0, 20, f => f.CreatedDateTime, true);
             var list2Total = list2.Total;
             var list2Data = await list2.Data.ToListAsync();
-            AddConsoleLog($"FilterAsync result-Total:{list2Total}");
-            AddConsoleLog($"FilterAsync result-Data:{list2Data.SerializeToJson()}\n");
+            AddConsoleLog($"Filter result-Total:{list2Total}");
+            AddConsoleLog($"Filter result-Data:{list2Data.SerializeToJson()}\n");
 
             AddConsoleLog("DeleteAsync by id...");
             var delete = await cityRepository.DeleteAsync(id, logUserId);
