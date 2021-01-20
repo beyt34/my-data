@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+
+using EFCore.BulkExtensions;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -15,8 +18,8 @@ namespace MyData.Core.Data {
             this.context = context;
         }
 
-        public async Task<Guid> AddUpdate(TEntity entity, Guid logUserId) {
-            var obj = await Detail(entity.Id);
+        public async Task<Guid> AddUpdateAsync(TEntity entity, Guid logUserId) {
+            var obj = await DetailAsync(entity.Id);
             if (obj == null) {
                 entity.IsDeleted = false;
                 entity.CreatedDateTime = DateTime.UtcNow;
@@ -38,16 +41,16 @@ namespace MyData.Core.Data {
             return entity.Id;
         }
 
-        public async Task<TEntity> Detail(Guid id) {
+        public async Task<TEntity> DetailAsync(Guid id) {
             return await context.Set<TEntity>().Where(p => p.Id == id && !p.IsDeleted).FirstOrDefaultAsync();
         }
 
-        public IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate) {
+        public IQueryable<TEntity> FilterAsync(Expression<Func<TEntity, bool>> predicate) {
             predicate = predicate.And(q => !q.IsDeleted);
             return context.Set<TEntity>().Where(predicate).AsQueryable();
         }
 
-        public FilterModel<TEntity> Filter(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, Expression<Func<TEntity, object>> shortField, bool sortDescending) {
+        public FilterModel<TEntity> FilterAsync(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize, Expression<Func<TEntity, object>> shortField, bool sortDescending) {
             var retval = new FilterModel<TEntity>();
             predicate = predicate.And(q => !q.IsDeleted);
 
@@ -65,8 +68,8 @@ namespace MyData.Core.Data {
             return retval;
         }
 
-        public async Task<bool> Delete(Guid id, Guid logUserId) {
-            var obj = await Detail(id);
+        public async Task<bool> DeleteAsync(Guid id, Guid logUserId) {
+            var obj = await DetailAsync(id);
             if (obj == null) {
                 return false;
             }
@@ -78,7 +81,7 @@ namespace MyData.Core.Data {
             return await context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> HardDelete(Guid id) {
+        public async Task<bool> HardDeleteAsync(Guid id) {
             var obj = await context.Set<TEntity>().Where(p => p.Id == id).FirstOrDefaultAsync();
             if (obj == null) {
                 return false;
@@ -87,6 +90,10 @@ namespace MyData.Core.Data {
             context.Set<TEntity>().Remove(obj);
 
             return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task BulkInsertAsync(List<TEntity> entities) {
+            await context.BulkInsertAsync(entities);
         }
     }
 }
